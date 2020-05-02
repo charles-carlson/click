@@ -1,0 +1,15 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "charles,roger,will",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "pool": "^0.4.1"
+  }
+}
