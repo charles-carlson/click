@@ -1,10 +1,21 @@
 const pool = require('./db.js').getPool();
 
+var schema = 'carlso13';
+var repo = 'click';
+
+pool.on('connect', client =>{
+    client.query(`SET search_path = ${repo},${schema},public`)
+});
+pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
 const create_user_table = () =>{
     const userQuery = `CREATE TABLE IF NOT EXISTS users
     (uid SERIAL PRIMARY KEY,
      scid SERIAL REFERENCES score(scid),
-     mid SERIAL REFERNCES money(mid),
+     mid SERIAL REFERENCES money(mid),
      username VARCHAR(100)  UNIQUE NOT NULL,
      password VARCHAR(100) NOT NULL  
      )`;
@@ -37,7 +48,7 @@ const create_money_table = () =>{
     const moneyQuery = `CREATE TABLE IF NOT EXISTS money
     (mid SERIAL PRIMARY KEY,
      coins INTEGER)`;
-     pool.query(scoreQuery). 
+     pool.query(moneyQuery). 
      then((res)=>{
         console.log(res);
         pool.end();
@@ -56,4 +67,4 @@ const createAllTables = () =>{
 
 module.exports = createAllTables;
   
-  require('make-runnable');
+require('make-runnable');
