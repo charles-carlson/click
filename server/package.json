@@ -8,7 +8,7 @@
     "create-dev-tables": "babel-node ./config/dbConnections.js createAllTables",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "npm install && node ./bin/www",
-    "setup":"npm-run-all -p start create-dev-tables"
+    "setup": "npm-run-all -p start create-dev-tables"
   },
   "author": "charles,roger,will",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
+    "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -28,6 +29,11 @@
     "npm-run-all": "^4.1.5",
     "pg": "^8.0.3",
     "pool": "^0.4.1",
-    "sequelize": "^5.21.7"
+    "sequelize": "^5.21.7",
+    "uuid": "^8.0.0"
+  },
+  "dependencies": {
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
   }
 }
