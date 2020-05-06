@@ -1,51 +1,58 @@
 var express = require('express');
-var router = express.Router();
+var user = express.Router();
 var pool = require('../config/db').getPool()
-
-router.use(passport.initialize());
-router.use(passport.session());
 var session = require("express-session"); 
-var passport = require('passport')
+var passport = require('../config/passport')
+var bcrypt = require('bcrypt')
 
-router.use(function timeLog (req, res, next) {
+var schema = 'carlso13';
+var repo = 'mca_s20_click';
+pool.on('connect', client =>{
+    client.query(`SET search_path = ${repo},${schema},public`)
+});
+pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
+user.use(function timeLog (req, res, next) {
     console.log('Time: ', Date.now())
     next()
 })
 
-router.get('/join', async function(req,res){//gets page for creating user
+user.get('/join', async function(req,res){//gets page for creating user
     res.sendStatus(200);
 })
 
 
-router.post('/join', async function (req,res){//creates user if not existing
-    try{
-        const client = await pool.connect()
-        await client.query('BEGIN')
-        var passw = await bcrypt.hash(req.body.password,5);
-        await JSON.stringify(client.query(`SELECT uid FROM users WHERE user_name=$1`,[req.body.user_name],function(err,result){
-            if(result.rows[0]){
-                res.redirect('/join')
+user.post('/join', async function (req,res){//creates user if not existing
+    const salt = bcrypt.genSaltSync(10);
+    console.log(req.body.username)
+    bcrypt.hash(req.body.password,salt,function(err,res){
+        console.log(req.body.username)
+        if(err){
+            console.error(err);
+        }
+        else{
+            var queryConfig = {
+                text: 'INSERT INTO users(username,password) VALUES($1,$2);',
+                values: [req.body.username,res]
             }
-            else{
-                client.query(`INSERT INTO users VALUES ($1,$2)`,[req.body.user_name,passw],
-                function (err,result){
-                    if(err){
-                        console.error(err);
-                    }
-                    else{
-                        console.log(result)
-                        res.redirect('/login')
-                    }
-                })
+            pool.query(queryConfig,function(err,res){
+                if (err) {
+                    console.error(err);
+                }
+                else{
+                    console.log('CREATED USER')
+                    res.redirect('/login')
+                }
+            })
             }
-        }));
-    client.release();
-    }catch(e){
-        throw e;
-    }
-});
+        }); 
+    });
 
-router.get('/login',async function(req,res){
+
+user.get('/login',async function(req,res){
     if(req.isAuthenticated()){
         res.redirect('/')
     }
@@ -54,7 +61,7 @@ router.get('/login',async function(req,res){
     }
 })
 
-router.post('/login', passport.authenticate('local',{
+user.post('/login', passport.authenticate('local',{
     successRedirect : '/',
     failureRedirect: '/login'
     }),
@@ -67,3 +74,5 @@ router.post('/login', passport.authenticate('local',{
         }
     res.redirect('/');
 });
+
+module.exports = user;

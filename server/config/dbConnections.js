@@ -1,7 +1,7 @@
 const pool = require('./db.js').getPool();
 
 var schema = 'carlso13';
-var repo = 'click';
+var repo = 'mca_s20_click';
 
 pool.on('connect', client =>{
     client.query(`SET search_path = ${repo},${schema},public`)
@@ -17,7 +17,7 @@ const create_user_table = () =>{
      scid SERIAL REFERENCES score(scid),
      mid SERIAL REFERENCES money(mid),
      username VARCHAR(100)  UNIQUE NOT NULL,
-     password VARCHAR(100) NOT NULL  
+     password BYTEA  
      )`;
      pool.query(userQuery).
      then((res)=>{
@@ -33,7 +33,7 @@ const create_user_table = () =>{
 const create_score_table = () =>{
     const scoreQuery = `CREATE TABLE IF NOT EXISTS score
     (scid SERIAL PRIMARY KEY,
-     score INTEGER)`;
+     points INTEGER)`;
      pool.query(scoreQuery). 
      then((res)=>{
         console.log(res);
