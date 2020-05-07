@@ -2,18 +2,9 @@ var express = require('express');
 var user = express.Router();
 var pool = require('../config/db').getPool()
 var session = require("express-session"); 
-var passport = require('../config/passport')
+var passport = require('passport')
 var bcrypt = require('bcrypt')
 
-var schema = 'carlso13';
-var repo = 'mca_s20_click';
-pool.on('connect', client =>{
-    client.query(`SET search_path = ${repo},${schema},public`)
-});
-pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client', err)
-    process.exit(-1)
-  })
 
 user.use(function timeLog (req, res, next) {
     console.log('Time: ', Date.now())
@@ -27,9 +18,7 @@ user.get('/join', async function(req,res){//gets page for creating user
 
 user.post('/join', async function (req,res){//creates user if not existing
     const salt = bcrypt.genSaltSync(10);
-    console.log(req.body.username)
     bcrypt.hash(req.body.password,salt,function(err,res){
-        console.log(req.body.username)
         if(err){
             console.error(err);
         }
@@ -40,39 +29,41 @@ user.post('/join', async function (req,res){//creates user if not existing
             }
             pool.query(queryConfig,function(err,res){
                 if (err) {
-                    console.error(err);
+                    res.sendStatus(401)
                 }
                 else{
-                    console.log('CREATED USER')
-                    res.redirect('/login')
+                    res.sendStatus(200)
                 }
             })
             }
-        }); 
+        });
+
     });
 
 
 user.get('/login',async function(req,res){
     if(req.isAuthenticated()){
-        res.redirect('/')
+        res.sendStatus(200)
     }
     else{
-        res.redirect('/login')
+        res.sendStatus(401)
     }
 })
 
-user.post('/login', passport.authenticate('local',{
-    successRedirect : '/',
-    failureRedirect: '/login'
-    }),
-    function(req,res){
-        if(req.body.remember){
-            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+user.post('/login', passport.authenticate('local'),
+    function(err,req,res){
+        if(err){
+            console.log(err);s
         }
         else{
-            req.session.cookie.expires();
-        }
-    res.redirect('/');
+            if(req.body.remember){
+                req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+            }
+            else{
+                req.session.cookie.expires();
+            }
+            res.sendStatus(200)
+        }   
 });
 
 module.exports = user;

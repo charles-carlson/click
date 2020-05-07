@@ -5,20 +5,30 @@ var os = require('os')
 var app = express();
 var userRouter = require('./routes/users')
 var passport = require('passport')
+var localStrategy = require('./config/passport')
+var pool = require('./config/db').getPool()
+var schema = 'carlso13';
+var repo = 'mca_s20_click';
+
+passport.use('local',localStrategy)
 app.use(require('cookie-parser')())
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(session({secret:'project'}))
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(session({secret:'project'}))
-app.use('/',userRouter,function(err,result){
-    if(err){
-        console.error(err)
-    }
-    else{
-        console.log(result)
-    }
+
+
+app.use('/',passport.authenticate('local',{session:false}),userRouter);
+
+pool.on('connect', client =>{
+    client.query(`SET search_path = ${repo},${schema},public`)
 });
+pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
 var interfaces = os.networkInterfaces();
 var addresses = [];
 for(var i in interfaces){

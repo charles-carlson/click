@@ -14,8 +14,6 @@ pool.on('error', (err, client) => {
 const create_user_table = () =>{
     const userQuery = `CREATE TABLE IF NOT EXISTS users
     (uid SERIAL PRIMARY KEY,
-     scid SERIAL REFERENCES score(scid),
-     mid SERIAL REFERENCES money(mid),
      username VARCHAR(100)  UNIQUE NOT NULL,
      password BYTEA  
      )`;
