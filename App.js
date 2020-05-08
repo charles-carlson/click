@@ -1,12 +1,22 @@
 //Install react router with 'npm install react-router-native'
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { NativeRouter, Switch, Route } from 'react-router-native';
 
 import Home from "./Home";
+import Clicker from "./Clicker";
+import Shop from "./Shop";
+import { render } from 'react-dom';
 
+export default class ClickerApp extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      var: ''
+    };
+  }
 
-export default function App() {
+render() {
   return (
     <NativeRouter>
     <View style={styles.container}>
@@ -15,15 +25,16 @@ export default function App() {
           exact path = "/"
           component = {Home} />
         <Route 
-          path = "/Clicker"
-          component = {clicker} />
+          exact path = "/Clicker"
+          component = {Clicker} />
         <Route
-          path = "/Shop"
+          exact path = "/Shop"
           component = {Shop} />
       </Switch>
     </View>
     </NativeRouter>
   );
+}
 }
 
 const styles = StyleSheet.create({
