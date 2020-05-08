@@ -1,18 +1,28 @@
-import 'react-native-gesture-handler';
+//Install react router with 'npm install react-router-native'
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NativeRouter, Switch, Route } from 'react-router-native';
 
-// tutorial on installing NavigationContainer:
-// https://reactnative.dev/docs/navigation
+import Home from "./Home";
+
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NativeRouter>
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Switch>
+        <Route
+          exact path = "/"
+          component = {Home} />
+        <Route 
+          path = "/Clicker"
+          component = {clicker} />
+        <Route
+          path = "/Shop"
+          component = {Shop} />
+      </Switch>
     </View>
-    </NavigationContainer>
+    </NativeRouter>
   );
 }
 
