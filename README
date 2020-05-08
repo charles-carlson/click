@@ -1,1 +1,77 @@
 click	Clicker team	robert9,becerr1,carlso13	Clicker Game
+
+##User Authentication
+###Dependencies Used
+    - express-session
+    - connect-pg-simple
+    - bcrypt
+    - dotenv
+
+###Installation for Session
+    -Both Mac and Windows can use npm install --save-dev to install Dependencies
+    -Create an enviroment variable in .env file and make sure write file into .gitignore
+    -Pass db connection through either your db file, or create connection in app.js and pass as arguement for pgSession
+    ```
+    var session = require('express-session')
+    var pgSession = require('connect-pg-simple')(session);
+    require('dotenv').config()
+    app.use(session({
+    store: new pgSession({
+        pool: pool,
+        tableName: 'session'
+    }),
+    secret: process.env.FOO_COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }
+    })
+);
+```
+###User Authentication
+    In your router files or in app.js wherever endpoints are handled
+    ```
+    var bcrypt = require('bcrypt')
+        user.get('/login',async function(req,res){
+        if(req.session.isLoggedIn){
+            res.sendStatus(200)
+        }
+        else{
+            res.sendStatus(401)
+        }
+    })
+
+    user.post('/login', async function(req,res,err){
+        const {username, password} = req.body;
+        var qConfig = {
+            text:'SELECT username,password FROM users WHERE username=$1;',
+            values: [username]
+        }
+
+        var {rows} = await pool.query(qConfig)
+        console.log('success')
+        console.log(rows[0].username)
+        var IsMatch = await bcrypt.compare(password,rows[0].password)
+        console.log(IsMatch)
+        if(IsMatch){
+            console.log('user logged in')
+            req.session.isLoggedIn = true;
+            req.session.username = username
+            res.sendStatus(200)
+        }
+        else{
+            console.log('user not logged in')
+            res.sendStatus(400)
+        }
+    });
+    ```
+IsMatch gets the callback from bcrypt compare when it compares the stored hashed password from db and returns true or false
+req.session can be used to store user information for the session, and upon leaving application, the user can logout
+however it is best practice to not store password in the session, and rather just the username.
+When storing username and password in your post,     
+    const salt = bcrypt.genSaltSync(10);
+    const hash = await bcrypt.hash(req.body.password,salt);
+    hash will return the bit string, and when INSERT into db, make sure password datatype is not plaintext/text
+    choose either BYTEA or VARCHAR(150)
+
+    
+
