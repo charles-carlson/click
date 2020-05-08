@@ -1,25 +1,37 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var pool = require('./config/db').getPool()
 var session = require('express-session')
+var pgSession = require('connect-pg-simple')(session);
 var os = require('os')
 var app = express();
 var userRouter = require('./routes/users')
-var passport = require('passport')
-var localStrategy = require('./config/passport')
-var pool = require('./config/db').getPool()
+require('dotenv').config()
+
 var schema = 'carlso13';
 var repo = 'mca_s20_click';
 
-passport.use('local',localStrategy)
+
 app.use(require('cookie-parser')())
 app.use(express.json());
+
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(session({secret:'project'}))
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(session({
+    store: new pgSession({
+        pool: pool,
+        tableName: 'session'
+    }),
+    secret: process.env.FOO_COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }
+    })
+);
 
 
-app.use('/',passport.authenticate('local',{session:false}),userRouter);
+
+
+app.use('/',userRouter);
 
 pool.on('connect', client =>{
     client.query(`SET search_path = ${repo},${schema},public`)

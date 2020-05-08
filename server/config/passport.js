@@ -5,7 +5,7 @@ var bcrypt = require('bcrypt');
 
 
 module.exports= new LocalStrategy({passReqToCallback:true},
-    (req,username,password,done)=>{
+    (username,password,done)=>{
             try{
                 var qconfig = {
                     text:'SELECT username,password FROM users WHERE username=$1;',
