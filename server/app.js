@@ -8,7 +8,7 @@ var app = express();
 var userRouter = require('./routes/users')
 require('dotenv').config()
 
-var schema = 'carlso13';
+var schema = 'mca_s20_click';
 var repo = 'mca_s20_click';
 
 

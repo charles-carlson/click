@@ -11,10 +11,6 @@ user.use(function timeLog (req, res, next) {
     next()
 })
 
-user.get('/join', async function(req,res){//gets page for creating user
-    res.sendStatus(200);
-})
-
 
 user.post('/join', async function (req,res){//creates user if not existing
     
@@ -33,12 +29,12 @@ user.post('/join', async function (req,res){//creates user if not existing
             console.log('USER CREATED')
         }
     })
-    res.status(200).send({message:'usercreated'});
+    res.status(200).send({message:'USER CREATED'});
     });
 
 
 user.get('/login',async function(req,res){
-    if(req.isAuthenticated()){
+    if(req.session.isLoggedIn){
         res.sendStatus(200)
     }
     else{
