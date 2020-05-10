@@ -45,7 +45,7 @@ user.get('/login',async function(req,res){
 user.post('/login', async function(req,res,err){
     const {username, password} = req.body;
     var qConfig = {
-        text:'SELECT username,password FROM users WHERE username=$1;',
+        text:'SELECT uid username,password FROM users WHERE username=$1;',
         values: [username]
     }
 
@@ -58,6 +58,7 @@ user.post('/login', async function(req,res,err){
         console.log('user logged in')
         req.session.isLoggedIn = true;
         req.session.username = username
+        req.session.uid = rows[0].uid
         res.sendStatus(200)
     }
     else{
