@@ -13,57 +13,57 @@ user.use(function timeLog (req, res, next) {
 
 
 user.post('/join', async function (req,res){//creates user if not existing
-    
-    const salt = bcrypt.genSaltSync(10);
-    const hash = await bcrypt.hash(req.body.password,salt);
     var queryConfig = {
-        text: 'INSERT INTO users(username,password) VALUES($1,$2);',
-        values: [req.body.username,hash]
+        text: 'INSERT INTO users(username,password,salt) VALUES($1,$2,$3);',
+        values: [req.body.username,req.body.password,req.body.salt]
     }
-    pool.query(queryConfig,function(err,res){
-        if (err) {
-            console.error(err)
-            throw err
-        }
-        else{
-            console.log('USER CREATED')
-        }
-    })
-    res.status(200).send({message:'USER CREATED'});
-    });
+        pool.query(queryConfig,function(err,result){
+            if (err) {
+                console.log(err)
+                res.json([{message:'username already exists'}]);
+                throw err;
+            }
+            else{
+                console.log('USER CREATED')
+                res.json([{message:'CREATED'}])
+            }
+        })  
+});
 
 
 user.get('/login',async function(req,res){
     if(req.session.isLoggedIn){
-        res.sendStatus(200)
+        res.json('User is logged in')
     }
     else{
-        res.sendStatus(401)
+        res.json('User is not logged in')
     }
 })
 
 user.post('/login', async function(req,res,err){
     const {username, password} = req.body;
     var qConfig = {
-        text:'SELECT uid username,password FROM users WHERE username=$1;',
+        text:'SELECT username,password,salt FROM users WHERE username=$1;',
         values: [username]
     }
-
-    var {rows} = await pool.query(qConfig)
-    console.log('success')
-    console.log(rows[0].username)
-    var IsMatch = await bcrypt.compare(password,rows[0].password)
-    console.log(IsMatch)
-    if(IsMatch){
-        console.log('user logged in')
-        req.session.isLoggedIn = true;
-        req.session.username = username
-        req.session.uid = rows[0].uid
-        res.sendStatus(200)
-    }
-    else{
-        console.log('user not logged in')
-        res.sendStatus(400)
+    try{
+        var {rows} = await pool.query(qConfig)
+        var attempt = await bcrypt.hash(password,rows[0].salt)
+        console.log('success')
+        console.log(rows[0].username)
+        if(rows[0].password == attempt){
+            console.log('user logged in')
+            req.session.isLoggedIn = true;
+            req.session.username = username
+            res.status(200).json([{message:'Login'}]);
+        }
+        else{
+            res.status(200).json([{message:'Wrong password or username'}]);
+        }
+    }catch(e){
+        console.log(e)
+        res.status(400).json([{message:'Wrong password or username'}])
+        throw e;
     }
 });
 module.exports = user;
