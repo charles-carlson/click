@@ -16,7 +16,7 @@ scores.get('/getScore', async function(req,response){
         }
         else if(!res[0].points){
             console.log('user has 0 points')
-            response.json({points:1})
+            response.json({points:0})
         }
         else{
             console.log('user has '+res[0].points+' points')
