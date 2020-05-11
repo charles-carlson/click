@@ -6,13 +6,7 @@ export default class HighscoresScreen extends Component {
 	return (
             <View style={{ flex: 1, alignItems: 'center',
                            justifyContent: 'center' }}>
-              <Text>Home Screen</Text>
-
-              <View style={{padding: 25}}/>   
-              <Button title="Login"
-                      onPress={() => this.props.navigation.navigate('Login')}/>
-              <Button title="Signup"
-                      onPress={() => this.props.navigation.navigate('Signup')}/>
+              <Text>Top Scores:</Text>
             </View>
         );
     }
