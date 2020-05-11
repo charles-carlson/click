@@ -3,8 +3,7 @@ var scores = express.Router();
 var pool = require('../config/db').getPool()
 
 scores.get('/getScore', async function(req,response){
-    var uid= req.body.uid;
-    console.log(uid);
+    var uid= req.session.uid;
     var queryConfig = {
         text: 'SELECT points FROM scores WHERE scores.uid = $1;',
         values: [uid]
@@ -25,22 +24,9 @@ scores.get('/getScore', async function(req,response){
     })
 
 })
-scores.post('/initialize',async function(request,response){
-    var uid = parseInt(request.body.uid);
-    console.log(uid);
-    pool.query(`INSERT INTO scores VALUES($1,$2)`,[uid,1]).
-    then(res=>{
-        console.log('initialize score')
-        response.sendStatus(200)
-    }).catch(err=>{
-        console.log(err)
-        throw err;
-    })
-})
+
 scores.put('/increase',async function(request,response){
-    var uid = parseInt(request.body.uid);
-    console.log(uid);
-    pool.query(`UPDATE scores SET points = points + 1 WHERE scores.uid = $1`,[uid]).
+    pool.query(`UPDATE scores SET points = points + 1 WHERE scores.uid = $1`,[request.session.uid]).
     then(res=>{
         console.log('updated score')
         response.sendStatus(200)

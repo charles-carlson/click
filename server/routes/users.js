@@ -74,11 +74,12 @@ user.post('/login', async function(req,res,err){
         if(rows[0].password == attempt){
             console.log('user logged in')
             req.session.isLoggedIn = true;
-            req.session.username = username
-            req.session.uid = rows[0].uid
-            req.session.save()
+            req.session.username = username;
+            req.session.uid = rows[0].uid;
+            req.session.save();
             res.status(200).json({message:'Login',
-                                  uid: rows[0].uid});
+                                  uid: rows[0].uid,
+                                  session:req.session});
         }
         else{
             res.status(200).json([{message:'Wrong password or username'}]);
@@ -87,6 +88,20 @@ user.post('/login', async function(req,res,err){
         console.log(e)
         res.status(400).json([{message:'Wrong password or username'}])
         throw e;
+    }
+});
+
+user.get('/logout',async function(req,res,next){
+    if(req.session){
+        req.session.destroy(function(err){
+            if(err){
+                console.log(err)
+                throw err;
+            }
+            else{
+                res.status(200)
+            }
+        })
     }
 });
 module.exports = user;

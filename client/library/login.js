@@ -33,7 +33,7 @@ export default class LoginScreen extends Component{
         }
         else if(json.message == 'Login'){
             Alert.alert('You are logged in!')
-            this.props.navigation.navigate('Main',{uid:json.uid})
+            this.props.navigation.navigate('Main')
         }
     }).catch(err=>{
         throw err;
