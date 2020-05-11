@@ -51,6 +51,8 @@ export default class MainScreen extends Component {
               <Button title="Press"
                       onPress={this.handlePress}
                       />
+              <Button title="View Highscores"
+                      onPress={this.props.navigation.navigate('Highscores')}/>
             </View>
         );
     }

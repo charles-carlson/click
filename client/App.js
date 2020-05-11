@@ -13,14 +13,6 @@ import HighscoresScreen from './library/highscores';
 const Stack = createStackNavigator();
 
 export default class AuthExample extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-        test: 'hey'
-    };
-}
-
-
   render(){
     return(
       <NavigationContainer>
