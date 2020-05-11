@@ -6,9 +6,11 @@ var pgSession = require('connect-pg-simple')(session);
 var os = require('os')
 var app = express();
 var userRouter = require('./routes/users')
+var scoreRouter = require('./routes/score')
+var moneyRouter = require('./routes/coins')
 require('dotenv').config()
 
-var schema = 'mca_s20_click';
+var schema = 'carlso13';
 var repo = 'mca_s20_click';
 
 
@@ -32,6 +34,8 @@ app.use(session({
 
 
 app.use('/',userRouter);
+app.use('/score',scoreRouter)
+app.use('/money',moneyRouter)
 
 pool.on('connect', client =>{
     client.query(`SET search_path = ${repo},${schema},public`)

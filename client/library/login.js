@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, View, Text, TextInput,Alert} from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
 export default class LoginScreen extends Component{
     constructor(props){
@@ -16,7 +17,7 @@ export default class LoginScreen extends Component{
            username: this.state.username,
            password: this.state.password
        }
-       fetch('http://192.168.0.12:3002/login',{
+       fetch('http://192.168.0.12:3001/login',{
            method:'POST',
            body: JSON.stringify(loginInfo),
            headers:{
@@ -25,12 +26,25 @@ export default class LoginScreen extends Component{
        }).then(res=>{
            return res.json()
        }).then(json=>{
-        console.log(json[0].message)
-        if(json[0].message == 'Wrong password or username'){
+        console.log(json.uid)
+        console.log(json.message)
+        if(json.message == 'Wrong password or username'){
             Alert.alert('Wrong password or username')
         }
-        else if(json[0].message == 'Login'){
+        else if(json.message == 'Login'){
             Alert.alert('You are logged in!')
+            
+            setValue = async () => {
+                try {
+                    await SecureStore.setItemAsync('uid', json.uid)
+                } catch(e) {
+                  console.log(e)
+                  throw e
+                }
+              
+                console.log('Done.')
+              }
+            this.props.navigation.navigate('Main',{uid:json.uid})
         }
     }).catch(err=>{
         throw err;

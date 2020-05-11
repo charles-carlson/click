@@ -43,7 +43,7 @@ user.get('/login',async function(req,res){
 user.post('/login', async function(req,res,err){
     const {username, password} = req.body;
     var qConfig = {
-        text:'SELECT username,password,salt FROM users WHERE username=$1;',
+        text:'SELECT uid,username,password,salt FROM users WHERE username=$1;',
         values: [username]
     }
     try{
@@ -51,11 +51,15 @@ user.post('/login', async function(req,res,err){
         var attempt = await bcrypt.hash(password,rows[0].salt)
         console.log('success')
         console.log(rows[0].username)
+        console.log(rows[0].uid)
         if(rows[0].password == attempt){
             console.log('user logged in')
             req.session.isLoggedIn = true;
             req.session.username = username
-            res.status(200).json([{message:'Login'}]);
+            req.session.uid = rows[0].uid
+            req.session.save()
+            res.status(200).json({message:'Login',
+                                  uid: rows[0].uid});
         }
         else{
             res.status(200).json([{message:'Wrong password or username'}]);

@@ -2,26 +2,50 @@ var express = require('express');
 var scores = express.Router();
 var pool = require('../config/db').getPool()
 
-scores.get('/score', async function(req,res){
-    var user = req.session.username;
-    var scid = req.session.scid;
-    pool.query(`SELECT points FROM users,score WHERE users.username = $1 AND score.scid = $2`,[user,scid]).
-    then(res =>{
-        console.log('returns users points')
-        res.send({score:points})
-    }).
-    catch(err=>{
+scores.get('/getScore', async function(req,response){
+    var uid= req.body.uid;
+    console.log(uid);
+    var queryConfig = {
+        text: 'SELECT points FROM scores WHERE scores.uid = $1;',
+        values: [uid]
+    }
+    pool.query(queryConfig,function(err,res){
+        if(err){
+            console.log(err)
+            throw err;
+        }
+        else if(!res[0].points){
+            console.log('user has 0 points')
+            response.json({points:1})
+        }
+        else{
+            console.log('user has '+res[0].points+' points')
+            response.json({points:res[0].points})
+        }
+    })
+
+})
+scores.post('/initialize',async function(request,response){
+    var uid = parseInt(request.body.uid);
+    console.log(uid);
+    pool.query(`INSERT INTO scores VALUES($1,$2)`,[uid,1]).
+    then(res=>{
+        console.log('initialize score')
+        response.sendStatus(200)
+    }).catch(err=>{
+        console.log(err)
         throw err;
     })
 })
-
-scores.put('/score',async function(req,res){
-    var user = req.session.username;
-    var scid = req.session.scid;
-    pool.query(`UPDATE score SET points = points + 1 FROM users WHERE users.username = $1 AND score.scid = $2`,[user,scid]).
+scores.put('/increase',async function(request,response){
+    var uid = parseInt(request.body.uid);
+    console.log(uid);
+    pool.query(`UPDATE scores SET points = points + 1 WHERE scores.uid = $1`,[uid]).
     then(res=>{
-        res.sendStatus(200)
+        console.log('updated score')
+        response.sendStatus(200)
     }).catch(err=>{
+        console.log(err)
         throw err;
     })
 })

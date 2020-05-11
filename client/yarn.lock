@@ -1036,6 +1036,13 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
+"@react-native-community/async-storage@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.10.0.tgz#fd6a9737f3c227ef4e28858b8201ad793a022296"
+  integrity sha512-kPJwhUpBKLXGrBnUjx0JVSJvSEl5nPO+puJ3Uy9pMvika9uWeniRGZPQjUWWQimU5M7xhQ41d5I1OP82Q3Xx9A==
+  dependencies:
+    deep-assign "^3.0.0"
+
 "@react-native-community/cli-debugger-ui@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-3.0.0.tgz#d01d08d1e5ddc1633d82c7d84d48fff07bd39416"
@@ -2369,6 +2376,11 @@ expo-permissions@~8.1.0:
   resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-8.1.0.tgz#a7f2ee91ba76ce3a467e7b10adaa9ca5201b226f"
   integrity sha512-QBHD+1J9+sGFnhoEGzMRchPweeEE0OJ9ehG/0l1BMRBA7qsLS9vRC1FTJ55NwjI0Kr4RTha9r6ZX1kZHT09f/w==
 
+expo-secure-store@~8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-8.1.0.tgz#1dcc4705c5264c828592a83842b8be8bbfb5f77f"
+  integrity sha512-EjCx9M2nH7iW3eNOjXl0I7oPypI0es6OStZakimR2iD8riLZp9LYHTj+39Iuz2o1m3OKi+bpwr3cHL52DxcDnA==
+
 expo-sqlite@~8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/expo-sqlite/-/expo-sqlite-8.1.0.tgz#858eb28e1143db281de8a49c99b4a953a81d0834"
@@ -3038,6 +3050,11 @@ is-wsl@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-wsl/-/is-wsl-1.1.0.tgz#1f16e4aa22b04d1336b66188a66af3c600c3a66d"
   integrity sha1-HxbkqiKwTRM2tmGIpmrzxgDDpm0=
+
+isaac@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/isaac/-/isaac-0.0.5.tgz#a4f292229a8bdf6e33900a3eb8b4201a57ff2d89"
+  integrity sha1-pPKSIpqL324zkAo+uLQgGlf/LYk=
 
 isarray@1.0.0, isarray@~1.0.0:
   version "1.0.0"
@@ -4342,6 +4359,11 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-native-bcrypt@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-bcrypt/-/react-native-bcrypt-2.4.0.tgz#95dff2dbc849c22b25f0b9379ab7bfebd2140bfd"
+  integrity sha1-ld/y28hJwisl8Lk3mre/69IUC/0=
 
 react-native-gesture-handler@~1.6.0:
   version "1.6.1"
