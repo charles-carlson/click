@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "clicker",
-    "slug": "clicker",
+    "name": "HelloWorld",
+    "slug": "client",
     "platforms": [
       "ios",
       "android",
