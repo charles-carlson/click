@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './library/home'
 import LoginScreen from './library/login';
 import SignupScreen from './library/signup';
-import MainScreen from './library/main';
+import MainScreen from './library/test';
 const Stack = createStackNavigator();
 
 export default class AuthExample extends Component {

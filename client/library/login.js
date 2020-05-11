@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, View, Text, TextInput,Alert} from 'react-native';
-import * as SecureStore from 'expo-secure-store';
+
 
 export default class LoginScreen extends Component{
     constructor(props){
@@ -33,17 +33,6 @@ export default class LoginScreen extends Component{
         }
         else if(json.message == 'Login'){
             Alert.alert('You are logged in!')
-            
-            setValue = async () => {
-                try {
-                    await SecureStore.setItemAsync('uid', json.uid)
-                } catch(e) {
-                  console.log(e)
-                  throw e
-                }
-              
-                console.log('Done.')
-              }
             this.props.navigation.navigate('Main',{uid:json.uid})
         }
     }).catch(err=>{

@@ -12,21 +12,40 @@ user.use(function timeLog (req, res, next) {
 })
 
 
-user.post('/join', async function (req,res){//creates user if not existing
+user.post('/join', async function (req,response){//creates user if not existing
     var queryConfig = {
         text: 'INSERT INTO users(username,password,salt) VALUES($1,$2,$3);',
         values: [req.body.username,req.body.password,req.body.salt]
     }
-        pool.query(queryConfig,function(err,result){
+    pool.query(queryConfig, async function(err,result){
             if (err) {
                 console.log(err)
-                res.json([{message:'username already exists'}]);
+                response.json([{message:'username already exists'}]);
                 throw err;
             }
             else{
                 console.log('USER CREATED')
-                res.json([{message:'CREATED'}])
-            }
+                var {rows} = await pool.query('SELECT uid FROM users WHERE username = $1;',[req.body.username])
+                console.log(rows[0].uid)
+                pool.query('INSERT INTO scores(uid,points) VALUES($1,$2);',[rows[0].uid,0],async function(err,res){
+                    if(err){
+                        console.log(err)
+                        throw err;
+                    }
+                    pool.query('INSERT INTO money(uid,coins) VALUES($1,$2);',[rows[0].uid,0],function(err,res){
+                        if(err){
+                            console.log(err)
+                            throw err;
+                        }
+                        else{
+                            response.json([{message:'CREATED'}])
+                        }
+                    })
+                })           
+                
+            }                 
+                     
+            
         })  
 });
 

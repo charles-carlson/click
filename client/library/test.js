@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button, Alert } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
+
 
 export default class MainScreen extends Component {
     constructor(props){
