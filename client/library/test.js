@@ -11,8 +11,19 @@ export default class MainScreen extends Component {
         this.handlePress = this.handlePress.bind(this);
         this.logout = this.logout.bind(this)
     }
-
-    logout(){
+    componentDidMount(){
+        fetch('http://192.168.0.12:3001/score/getScore').then(res=>{
+            return res.json()
+            .then(myjson=>{
+                console.log(myjson.rows[0].points)
+                this.setState({score:myjson.rows[0].points})
+            })
+        }).catch(err=>{
+            console.log(err)
+            throw err;
+        })
+    }
+    logout(e){
         fetch('http://192.168.0.12:3001/logout').then(res=>{
             Alert.alert('Logged out')
             this.props.navigation.navigate('Home')
@@ -50,7 +61,10 @@ export default class MainScreen extends Component {
               <View style={{padding: 25}}/>   
               <Button title="Press"
                       onPress={this.handlePress}
+                      style={{margin:'20px'}}
                       />
+              <Button title="View Highscores"
+                onPress={() =>this.props.navigation.navigate('Highscores')}/>
             </View>
         );
     }
