@@ -12,7 +12,7 @@ export default class MainScreen extends Component {
         this.logout = this.logout.bind(this)
     }
 
-    logout(){
+    logout(e){
         fetch('http://192.168.0.12:3001/logout').then(res=>{
             Alert.alert('Logged out')
             this.props.navigation.navigate('Home')
@@ -50,9 +50,10 @@ export default class MainScreen extends Component {
               <View style={{padding: 25}}/>   
               <Button title="Press"
                       onPress={this.handlePress}
+                      style={{margin:'20px'}}
                       />
               <Button title="View Highscores"
-                      onPress={this.props.navigation.navigate('Highscores')}/>
+                onPress={() =>this.props.navigation.navigate('Highscores')}/>
             </View>
         );
     }
