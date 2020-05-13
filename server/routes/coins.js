@@ -14,6 +14,7 @@ money.get('/getMoney',async function(request,response){
         throw err;
     })
 })
+
 money.put('/deposit',async function(request,result){
     var uid = req.session.uid;
     console.log(uid);

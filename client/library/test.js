@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, Button, Alert } from 'react-native';
+import { Audio } from 'expo-av';
+import clickAudio from '../assets/sounds/click.mp3'
 
+const soundObject = new Audio.Sound();
+soundObject.loadAsync(clickAudio)
 export default class MainScreen extends Component {
     constructor(props){
         super(props)
@@ -40,7 +44,16 @@ export default class MainScreen extends Component {
                    }
             }).then(res=>{
                 if(res.status == 200){
+                    try{
+                    soundObject.replayAsync();
+                    }
+                    catch(err){
+                        throw err
+                    }
+                    
                     this.setState({score:this.state.score+1})
+                    
+                    
                 }
                 else{
                     Alert.alert('error')
