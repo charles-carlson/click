@@ -42,7 +42,7 @@ export default class HighscoresScreen extends Component {
             <Text>Top 10 Users</Text>
             <Button title='confirm' onPress={this.handlePress}/>
               {this.state.topScores.map((list,key)=>(
-                <Text key={key} >{list.uid} {list.username} {list.points}</Text>)
+                <Text key={key} >{list.username} {list.points}</Text>)
               )}
               
             </View>
