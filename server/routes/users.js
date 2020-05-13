@@ -99,6 +99,7 @@ user.get('/logout',async function(req,res,next){
                 throw err;
             }
             else{
+                console.log('user logged out')
                 res.status(200)
             }
         })
