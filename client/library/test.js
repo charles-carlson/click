@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Alert } from 'react-native';
+import { View, Text, Button, Alert,StyleSheet,Image} from 'react-native';
 import { Audio } from 'expo-av';
 import clickAudio from '../assets/sounds/click.mp3'
-
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import emoji from '../assets/laughing-emoji2.jpeg';
 const soundObject = new Audio.Sound();
 soundObject.loadAsync(clickAudio)
 export default class MainScreen extends Component {
@@ -71,13 +72,30 @@ export default class MainScreen extends Component {
               <Text>Push the Button</Text>
               <Text>{this.state.score}</Text>
               <View style={{padding: 25}}/>   
-              <Button title="Press"
+              <TouchableOpacity title="Press"
                       onPress={this.handlePress}
-                      style={{margin:'20px'}}
-                      />
+                      style={styles.imageContainer}
+                      >
+                    <Image style={styles.image} source={emoji}/>
+                      </TouchableOpacity>
               <Button title="View Highscores"
                 onPress={() =>this.props.navigation.navigate('Highscores')}/>
             </View>
         );
     }
 }
+
+var styles = StyleSheet.create({
+    imageContainer:{
+        height:80,
+        width: 80,
+        borderRadius: 80,
+        alignItems:'center',
+    },
+    image:{
+        height:80,
+        width: 80,
+        borderRadius: 80,
+        alignItems:'center',
+    }
+})
