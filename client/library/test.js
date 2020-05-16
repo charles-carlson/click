@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Alert } from 'react-native';
+import { StyleSheet, View, Text, Button, Alert } from 'react-native';
 import { Audio } from 'expo-av';
 import clickAudio from '../assets/sounds/click.mp3'
 
@@ -66,18 +66,49 @@ export default class MainScreen extends Component {
     }
     render() {
 	return (
-            <View style={{ flex: 1, alignItems: 'center',
-                           justifyContent: 'center' }}>
-              <Text>Push the Button</Text>
-              <Text>{this.state.score}</Text>
-              <View style={{padding: 25}}/>   
+            <View style={generalStyle.container}>
+              <Text style={titleStyle}>Push the Button</Text>
+              <Text style={scoreStyle}>{this.state.score}</Text>
+              <Button 
+                title="View Highscores"
+                onPress={() =>this.props.navigation.navigate('Highscores')}/>
+              <View style={{padding: 40}}/>   
               <Button title="Press"
                       onPress={this.handlePress}
                       style={{margin:'20px'}}
                       />
-              <Button title="View Highscores"
-                onPress={() =>this.props.navigation.navigate('Highscores')}/>
             </View>
         );
     }
 }
+
+const generalStyle = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  })
+  
+const titleStyle = StyleSheet.create({
+    container: {
+        color: 'blue',
+        //textShadowOffset: {width: 50, height: 50},
+        fontSize: 36,
+        fontWeight: 'bold',
+        textShadowColor: 'black',
+        textShadowRadius: 0,
+        fontFamily: 'Optima', 
+        letterSpacing: 0
+      },
+    })
+
+const scoreStyle = StyleSheet.create({
+    container: {
+      color: 'purple',
+      fontSize: 100,
+      fontWeight: 'bold',
+      fontFamily: 'Cochin'
+    },
+  })
