@@ -6,9 +6,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './library/home'
 import LoginScreen from './library/login';
 import SignupScreen from './library/signup';
-import MainScreen from './library/test';
+import MainScreen from './library/main';
 import HighscoresScreen from './library/highscores';
-
+import './assets/fonts/PressStart2P-Regular.ttf'
 const Stack = createStackNavigator();
 
 export default class AuthExample extends Component {

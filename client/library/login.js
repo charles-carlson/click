@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text, TextInput,Alert} from 'react-native';
+import { Button, View, Text, TextInput,Alert,StyleSheet,TouchableOpacity} from 'react-native';
 
 
 export default class LoginScreen extends Component{
@@ -41,21 +41,60 @@ export default class LoginScreen extends Component{
     }
     render(){
         return (
-            <View style={{paddingTop: 50, paddingLeft: 50 }}>
+            <View style={{paddingTop: 50, paddingLeft: 0}}>
                 <TextInput
                     placeholder='username'
                     onChangeText={(username) => this.setState({username})}
-                    value={this.state.username}          
+                    value={this.state.username}  
+                    style={styles.textInputContainer}        
                 />
 
                 <TextInput
                     placeholder='password'
                     onChangeText={(password) => this.setState({password})}
-                    value={this.state.password}   
-                />  
-                <Button title='confirm' onPress={this.onSubmit}/>
-                <Button title='signup' onPress={()=>this.props.navigation.navigate('Signup')}/>
+                    value={this.state.password} 
+                    secureTextEntry={true} 
+                    style={styles.textInputContainer}      
+                />
+                <View style={{padding: 10}}/> 
+                <TouchableOpacity title="Confirm"
+                      onPress={this.onSubmit}
+                      style={styles.button}>
+                    <Text style={styles.box}>Login</Text>
+                      </TouchableOpacity>
+                <View style={{padding: 10}}/>      
+              <TouchableOpacity title="Signup"
+                      onPress={() => this.props.navigation.navigate('Signup')}
+                      style={styles.button}>
+            <Text style={styles.box}>Signup</Text>
+            </TouchableOpacity>  
             </View>
         )
     }
 }
+const styles = StyleSheet.create({
+    button:{
+        height:50,
+        width:100,
+        borderRadius:24,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    box:{
+        height:50,
+        width:100,
+        fontSize:24,
+        borderRadius:24,
+        backgroundColor:'#405365',
+        color:'white',
+        justifyContent: 'center',
+        textAlignVertical: 'center',
+        textAlign: 'center' 
+    },
+    textInputContainer:{
+    borderBottomColor:'#405365',
+    borderBottomWidth:2,
+    margin:15,
+    alignSelf: "stretch"
+    }
+})

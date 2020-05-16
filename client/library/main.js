@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, Button, Alert,StyleSheet,Image} from 'react-native';
 import { Audio } from 'expo-av';
+import * as Font from 'expo-font'; 
 import clickAudio from '../assets/sounds/click.mp3'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import emoji from '../assets/laughing-emoji2.jpeg';
-import Sidebar from "react-sidebar";
 const soundObject = new Audio.Sound();
 soundObject.loadAsync(clickAudio)
 export default class MainScreen extends Component {
@@ -21,7 +21,11 @@ export default class MainScreen extends Component {
     onSetSidebarOpen(open) {
         this.setState({ sidebarOpen: open });
       }
-    componentDidMount(){
+    async componentDidMount(){
+        await Font.loadAsync({
+            'PressStart2P': require('../assets/fonts/PressStart2P-Regular.ttf')
+        })
+
         fetch('http://192.168.0.12:3001/score/getScore').then(res=>{
             return res.json()
             .then(myjson=>{
@@ -75,8 +79,8 @@ export default class MainScreen extends Component {
 	return (
               
             <View style={generalStyle.container}>
-              <Text style={titleStyle}>Push the Button</Text>
-              <Text style={scoreStyle}>{this.state.score}</Text>
+              <Text style={titleStyle.container}>Push the Button</Text>
+              <Text style={scoreStyle.container}>{this.state.score}</Text>
               <Button 
                 title="View Highscores"
                 onPress={() =>this.props.navigation.navigate('Highscores')}/>
@@ -124,8 +128,8 @@ const titleStyle = StyleSheet.create({
         fontWeight: 'bold',
         textShadowColor: 'black',
         textShadowRadius: 0,
-        fontFamily: 'Optima', 
-        letterSpacing: 0
+        letterSpacing: 0,
+        fontFamily: 'PressStart2P'
       },
     })
 
@@ -134,6 +138,6 @@ const scoreStyle = StyleSheet.create({
       color: 'purple',
       fontSize: 100,
       fontWeight: 'bold',
-      fontFamily: 'Cochin'
+      fontFamily: 'PressStart2P'
     },
   })
