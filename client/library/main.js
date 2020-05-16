@@ -73,21 +73,20 @@ export default class MainScreen extends Component {
     }
     render() {
 	return (
- 
-            <View style={{ flex: 1, alignItems: 'center',
-                           justifyContent: 'center' }}>
-
-              <Text>Push the Button</Text>
-              <Text>{this.state.score}</Text>
-              <View style={{padding: 25}}/>   
-              <TouchableOpacity title="Press"
+              
+            <View style={generalStyle.container}>
+              <Text style={titleStyle}>Push the Button</Text>
+              <Text style={scoreStyle}>{this.state.score}</Text>
+              <Button 
+                title="View Highscores"
+                onPress={() =>this.props.navigation.navigate('Highscores')}/>
+              <View style={{padding: 40}}/>   
+                <TouchableOpacity title="Press"
                       onPress={this.handlePress}
                       style={styles.imageContainer}
                       >
                     <Image style={styles.image} source={emoji}/>
-                      </TouchableOpacity>
-              <Button title="View Highscores"
-                onPress={() =>this.props.navigation.navigate('Highscores')}/>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -107,11 +106,34 @@ var styles = StyleSheet.create({
         alignItems:'center',
     }
 })
-/*             <Sidebar
-                sidebar={<b>Settings</b>}
-                open={this.state.sidebarOpen}
-                onSetOpen={this.onSetSidebarOpen}
-                styles={{ sidebar: { background: "white" } }}
-              >
-                  <Button title="open" onPress={() => this.onSetSidebarOpen(true)}>Open</Button>
-              </Sidebar> */
+
+const generalStyle = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  })
+  
+const titleStyle = StyleSheet.create({
+    container: {
+        color: 'blue',
+        //textShadowOffset: {width: 50, height: 50},
+        fontSize: 36,
+        fontWeight: 'bold',
+        textShadowColor: 'black',
+        textShadowRadius: 0,
+        fontFamily: 'Optima', 
+        letterSpacing: 0
+      },
+    })
+
+const scoreStyle = StyleSheet.create({
+    container: {
+      color: 'purple',
+      fontSize: 100,
+      fontWeight: 'bold',
+      fontFamily: 'Cochin'
+    },
+  })
