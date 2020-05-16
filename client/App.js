@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,Button } from 'react-native';
+import { View, Text,Button,StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -28,7 +28,7 @@ export default class AuthExample extends Component {
     return(
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name='Home' component={HomeScreen}/>
+          <Stack.Screen name='Click Studio Presents' options={{headerTitleAlign:'center'}} component={HomeScreen}/>
           <Stack.Screen name='Login' component={LoginScreen}/>
           <Stack.Screen name='Signup' component={SignupScreen}/>
           <Stack.Screen name='Main' component={MainScreen} 
@@ -38,7 +38,16 @@ export default class AuthExample extends Component {
                 ),
               })
             }/>
-          <Stack.Screen name='Highscores' component={HighscoresScreen}/>
+          <Stack.Screen name='Highscores' 
+          options={{
+            headerTitleStyle:{
+              fontSize: 36
+            },
+            headerStyle:{
+            backgroundColor: 'red'
+            },
+            headerTitleAlign:'center'
+          }}component={HighscoresScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     )
