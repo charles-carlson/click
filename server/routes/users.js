@@ -90,7 +90,18 @@ user.post('/login', async function(req,res,err){
         throw e;
     }
 });
-
+user.delete('/destroy', async function(req,response){
+    var uid = req.session.uid;
+    pool.query('DELETE FROM users,money,scores,session WHERE users.uid = $1 money.uid = $1 scores.uid = $1 session.uid = $1',[uid])
+    .then(res=>{
+        console.log('user deleted')
+        response.sendStatus(200)
+    })
+    .catch(err=>{
+        console.log(err)
+        throw err
+    })
+})
 user.get('/logout',async function(req,res,next){
     if(req.session){
         req.session.destroy(function(err){

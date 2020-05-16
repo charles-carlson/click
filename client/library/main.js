@@ -4,17 +4,23 @@ import { Audio } from 'expo-av';
 import clickAudio from '../assets/sounds/click.mp3'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import emoji from '../assets/laughing-emoji2.jpeg';
+import Sidebar from "react-sidebar";
 const soundObject = new Audio.Sound();
 soundObject.loadAsync(clickAudio)
 export default class MainScreen extends Component {
     constructor(props){
         super(props)
         this.state={
-            score: 0
+            score: 0,
+            sidebarOpen: true
         }
         this.handlePress = this.handlePress.bind(this);
         this.logout = this.logout.bind(this)
+        this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     }
+    onSetSidebarOpen(open) {
+        this.setState({ sidebarOpen: open });
+      }
     componentDidMount(){
         fetch('http://192.168.0.12:3001/score/getScore').then(res=>{
             return res.json()
@@ -67,8 +73,10 @@ export default class MainScreen extends Component {
     }
     render() {
 	return (
+ 
             <View style={{ flex: 1, alignItems: 'center',
                            justifyContent: 'center' }}>
+
               <Text>Push the Button</Text>
               <Text>{this.state.score}</Text>
               <View style={{padding: 25}}/>   
@@ -99,3 +107,11 @@ var styles = StyleSheet.create({
         alignItems:'center',
     }
 })
+/*             <Sidebar
+                sidebar={<b>Settings</b>}
+                open={this.state.sidebarOpen}
+                onSetOpen={this.onSetSidebarOpen}
+                styles={{ sidebar: { background: "white" } }}
+              >
+                  <Button title="open" onPress={() => this.onSetSidebarOpen(true)}>Open</Button>
+              </Sidebar> */
