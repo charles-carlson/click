@@ -92,7 +92,8 @@ user.post('/login', async function(req,res,err){
 });
 user.delete('/destroy', async function(req,response){
     var uid = req.session.uid;
-    pool.query('DELETE FROM users WHERE users.uid = $1',[uid])
+    console.log(uid)
+    pool.query('DELETE FROM users WHERE uid = $1',[uid])
     .then(res=>{
         console.log('USER DESTROYED')
         response.sendStatus(200)

@@ -37,7 +37,7 @@ export default class AuthExample extends Component {
               title: ' ',
               headerLeft: () =>( <Button title='Logout' onPress={()=>{this.logout();navigation.navigate('Home')}}/>
                 ),
-              headerRight: () => (<Button title='Settings' onPress={()=>{this.logout();navigation.navigate('Settings')}}/>)
+              headerRight: () => (<Button title='Settings' onPress={()=>{navigation.navigate('Settings')}}/>)
               })
             }/>
           <Stack.Screen name='Highscores' 

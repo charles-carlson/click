@@ -14,6 +14,7 @@ scores.get('/getHighscores',async function(req,response){
 })
 scores.get('/getScore', async function(req,response){
     var uid= req.session.uid;
+    console.log(uid)
     var queryConfig = {
         text: 'SELECT points FROM scores WHERE scores.uid = $1;',
         values: [uid]
