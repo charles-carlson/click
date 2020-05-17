@@ -8,6 +8,7 @@ import LoginScreen from './library/login';
 import SignupScreen from './library/signup';
 import MainScreen from './library/main';
 import HighscoresScreen from './library/highscores';
+import SettingsScreen from './library/Settings'
 import './assets/fonts/PressStart2P-Regular.ttf'
 const Stack = createStackNavigator();
 
@@ -28,14 +29,15 @@ export default class AuthExample extends Component {
     return(
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name='Click Studio Presents' options={{headerTitleAlign:'center'}} component={HomeScreen}/>
+          <Stack.Screen name='Home' options={{title: 'Click Studio Presents',headerTitleAlign:'center'}} component={HomeScreen}/>
           <Stack.Screen name='Login' component={LoginScreen}/>
           <Stack.Screen name='Signup' component={SignupScreen}/>
           <Stack.Screen name='Main' component={MainScreen} 
               options={({navigation})=>({
-              title: 'Push the Button',
+              title: ' ',
               headerLeft: () =>( <Button title='Logout' onPress={()=>{this.logout();navigation.navigate('Home')}}/>
                 ),
+              headerRight: () => (<Button title='Settings' onPress={()=>{this.logout();navigation.navigate('Settings')}}/>)
               })
             }/>
           <Stack.Screen name='Highscores' 
@@ -48,6 +50,7 @@ export default class AuthExample extends Component {
             },
             headerTitleAlign:'center'
           }}component={HighscoresScreen}/>
+          <Stack.Screen name='Settings' component={SettingsScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     )
