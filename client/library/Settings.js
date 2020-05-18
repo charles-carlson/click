@@ -25,7 +25,7 @@ export default class LoginScreen extends Component{
     }
     render(){
         return (
-            <View style={{paddingTop: 50, paddingLeft: 0}}>
+            <View style={{paddingTop: 50, paddingLeft: 125}}>
                 <View style={{padding: 10}}/> 
                 <TouchableOpacity title="Delete Account"
                       onPress={this.onSubmit}
@@ -38,15 +38,15 @@ export default class LoginScreen extends Component{
 }
 const styles = StyleSheet.create({
     button:{
-        height:50,
-        width:100,
+        height:75,
+        width:125,
         borderRadius:24,
         justifyContent: 'center',
         alignItems: 'center'
     },
     box:{
-        height:50,
-        width:100,
+        height:75,
+        width:125,
         fontSize:24,
         borderRadius:24,
         backgroundColor:'#405365',

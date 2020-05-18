@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Alert,StyleSheet,Image} from 'react-native';
+import { View, Text, Button, Alert,StyleSheet,Image, TouchableOpacityBase} from 'react-native';
 import { Audio } from 'expo-av';
 import clickAudio from '../assets/sounds/click.mp3'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -11,11 +11,10 @@ export default class MainScreen extends Component {
         super(props)
         this.state={
             score: 0,
-            sidebarOpen: true
+            coins: 0
         }
         this.handlePress = this.handlePress.bind(this);
-        this.logout = this.logout.bind(this)
-        this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+        
     }
     onSetSidebarOpen(open) {
         this.setState({ sidebarOpen: open });
@@ -24,42 +23,54 @@ export default class MainScreen extends Component {
         fetch('http://192.168.0.12:3001/score/getScore').then(res=>{
             return res.json()
             .then(myjson=>{
-                console.log(myjson.rows[0].points)
+                console.log('user score is' + myjson.rows[0].points)
                 this.setState({score:myjson.rows[0].points})
             })
         }).catch(err=>{
             console.log(err)
             throw err;
         })
-    }
-    logout(e){
-        fetch('http://192.168.0.12:3001/logout').then(res=>{
-            Alert.alert('Logged out')
-            this.props.navigation.navigate('Home')
+        fetch('http://192.168.0.12:3001/money/getMoney').then(res=>{
+            return res.json()
+        }).then(myjson=>{
+            console.log('user wallet is'+ myjson.rows[0].coins)
+            this.setState({coins:myjson.rows[0].coins})
         }).catch(err=>{
             console.log(err)
-            throw err;
+            throw err
         })
     }
-    
     handlePress(){
+            try{
+                soundObject.replayAsync();
+            }
+            catch(err){
+                throw err
+            }
             fetch('http://192.168.0.12:3001/score/increase',{
                 method:'PUT',
                 headers:{
                     'Content-Length': '0'
                    }
             }).then(res=>{
-                if(res.status == 200){
-                    try{
-                    soundObject.replayAsync();
-                    }
-                    catch(err){
-                        throw err
-                    }
-                    
-                    this.setState({score:this.state.score+1})
-                    
-                    
+                if(res.status == 200){    
+                    this.setState({score:this.state.score+1}) 
+                    if(this.state.score % 15 == 0){
+                        
+                        fetch('http://192.168.0.12:3001/money/deposit',{
+                            method:'PUT',
+                            headers:{
+                                'Content-Length': '0'
+                               }
+                        }).then(res=>{
+                            if(res.status == 200){
+                                this.setState({coins:this.state.coins+1})
+                            }
+                        }).catch(err=>{
+                            console.log(err)
+                            throw err
+                        })
+                    }    
                 }
                 else{
                     Alert.alert('error')
@@ -72,20 +83,24 @@ export default class MainScreen extends Component {
     }
     render() {
 	return (
-              
+
             <View style={generalStyle.container}>
-              <Text style={titleStyle.container}>Push the Button</Text>
-              <Text style={scoreStyle.container}>{this.state.score}</Text>
-              <View style={{padding: 40}}/>   
+                <View style={styles.coin}>
+                    <Text style={styles.coinText}>{this.state.coins}</Text>
+                </View>
+              <Text style={scoreStyle.container}>{this.state.score}</Text>   
                 <TouchableOpacity title="Press"
                       onPress={this.handlePress}
                       style={styles.imageContainer}
                       >
                     <Image style={styles.image} source={emoji}/>
                 </TouchableOpacity>
-                <Button 
+                <TouchableOpacity
                 title="View Highscores"
-                onPress={() =>this.props.navigation.navigate('Highscores')}/>
+                style={styles.box}
+                onPress={() =>this.props.navigation.navigate('Highscores')}>
+                <Text style={styles.highScore}>Highscores</Text>    
+                </TouchableOpacity>
             </View>
         );
     }
@@ -97,21 +112,56 @@ var styles = StyleSheet.create({
         width: 80,
         borderRadius: 80,
         alignItems:'center',
+        
     },
     image:{
         height:80,
         width: 80,
         borderRadius: 80,
+        alignItems:'center'
+    },
+    coin:{
+        position:'relative',
+        left: 150,
+        height:50,
+        width: 50,
+        borderRadius:25,
+        backgroundColor:'yellow',
         alignItems:'center',
+        justifyContent: 'center'
+    },
+    coinText:{
+        textAlignVertical: 'center',
+        textAlign: 'center' ,
+        fontSize:36,
+        fontWeight:'bold'
+    },
+    box:{
+        height:50,
+        width:120,
+        borderRadius:24,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    highScore:{
+        height:50,
+        width:120,
+        fontSize:24,
+        borderRadius:24,
+        backgroundColor:'#405365',
+        color:'white',
+        justifyContent: 'center',
+        textAlignVertical: 'center',
+        textAlign: 'center'  
     }
 })
 
 const generalStyle = StyleSheet.create({
     container: {
-      flex: 1,
+      flex:1,
       backgroundColor: '#fff',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'space-around',
     },
   })
   
@@ -124,7 +174,6 @@ const titleStyle = StyleSheet.create({
         textShadowColor: 'black',
         textShadowRadius: 0,
         letterSpacing: 0,
-        
       },
     })
 
@@ -133,6 +182,6 @@ const scoreStyle = StyleSheet.create({
       color: 'purple',
       fontSize: 100,
       fontWeight: 'bold',
-      
+      position:'relative',
     },
   })

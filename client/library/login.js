@@ -56,7 +56,8 @@ export default class LoginScreen extends Component{
                     secureTextEntry={true} 
                     style={styles.textInputContainer}      
                 />
-                <View style={{padding: 10}}/> 
+                <View style={{padding: 10}}/>
+                <View style={{paddingTop: 0, paddingLeft: 125}}>
                 <TouchableOpacity title="Confirm"
                       onPress={this.onSubmit}
                       style={styles.button}>
@@ -67,7 +68,9 @@ export default class LoginScreen extends Component{
                       onPress={() => this.props.navigation.navigate('Signup')}
                       style={styles.button}>
             <Text style={styles.box}>Signup</Text>
-            </TouchableOpacity>  
+            </TouchableOpacity> 
+                </View>
+ 
             </View>
         )
     }

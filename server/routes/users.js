@@ -6,12 +6,6 @@ var passport = require('passport')
 var bcrypt = require('bcrypt')
 
 
-user.use(function timeLog (req, res, next) {
-    console.log('Time: ', Date.now())
-    next()
-})
-
-
 user.post('/join', async function (req,response){//creates user if not existing
     var queryConfig = {
         text: 'INSERT INTO users(username,password,salt) VALUES($1,$2,$3);',

@@ -3,11 +3,11 @@ var money= express.Router();
 var pool = require('../config/db').getPool()
 
 money.get('/getMoney',async function(request,response){
-    var uid = req.session.uid;
+    var uid = request.session.uid;
     console.log(uid);
     pool.query(`SELECT coins FROM money WHERE uid = $1`,[uid])
     .then(res=>{
-        res.send({wallet:res[0].coins})
+        response.json(res)
     })
     .catch(err=>{
         console.log(err)
@@ -15,22 +15,22 @@ money.get('/getMoney',async function(request,response){
     })
 })
 
-money.put('/deposit',async function(request,result){
-    var uid = req.session.uid;
+money.put('/deposit',async function(request,response){
+    var uid = request.session.uid;
     console.log(uid);
-    pool.query('UPDATE money SET coins = coints + 1 WHERE uid = $1',[uid])
+    pool.query('UPDATE money SET coins = coins + 1 WHERE uid = $1',[uid])
     .then(res=>{
         console.log('added a coin')
-        res.sendStatus(200)
+        response.sendStatus(200)
     })
     .catch(err=>{
         console.log(err)
         throw err;
     })
 })
-money.put('/withdrawn', async function(req,response){
-    var uid = req.session.uid;
-    var amt = req.body.withdrawn;
+money.put('/withdrawn', async function(request,response){
+    var uid = request.session.uid;
+    var amt = request.body.withdrawn;
     console.log(uid);
     pool.query(`UPDATE money SET coins = coins - $1 WHERE mid = $2`,[amt,uid])
     .then(res=>{
