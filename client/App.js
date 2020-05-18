@@ -46,7 +46,7 @@ export default class AuthExample extends Component {
               fontSize: 36
             },
             headerStyle:{
-            backgroundColor: 'red'
+            backgroundColor: '#ED635E'
             },
             headerTitleAlign:'center'
           }}component={HighscoresScreen}/>

@@ -35,12 +35,12 @@ export default class HighscoresScreen extends Component {
         
 	return (
             <View style={{ flex: 1, alignItems: 'center',
-                           justifyContent: 'center' }}>
+                           justifyContent: 'center',borderColor:'#405365',borderWidth:50 }}>
               {this.state.topScores.map((list,key)=>(
                 <Text key={key}style={styles.textStyle}>
-    <Text>{key < 10 ? '           ':'          '}{key+1}{')    '}</Text>
-                    <Text >{list.username}</Text>
-                    <Text>{list.points > 10 ? '    ' : '     '}{list.points}</Text> 
+                    <Text style={{fontWeight:'bold'}}>{key+1}{')'}</Text>
+                    <Text style={{fontWeight:'bold'}}>{'  '}{list.username}</Text>
+                    <Text style={{fontWeight:'bold'}}>{'     '}{list.points}</Text> 
                     </Text>)
               )}
               
@@ -53,10 +53,14 @@ const styles = StyleSheet.create({
 
     },
     textStyle:{
-        fontSize: 36,
+        fontSize: 24,
         fontWeight: '400',
         textAlign: 'justify',
         lineHeight: 60,
-        alignSelf: 'stretch'
-    }
+        alignSelf: 'stretch',
+        paddingLeft:50,
+        backgroundColor:'#ED635E',
+        flex:1
+        
+    },
 })

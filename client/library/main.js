@@ -111,11 +111,11 @@ var styles = StyleSheet.create({
     },
     coin:{
         position:'relative',
-        left: 150,
+        left: 140,
         height:50,
         width: 50,
         borderRadius:25,
-        backgroundColor:'yellow',
+        backgroundColor:'#E1B92F' ,
         alignItems:'center',
         justifyContent: 'center'
     },
@@ -148,9 +148,10 @@ var styles = StyleSheet.create({
 const generalStyle = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'space-around',
+      borderColor:'#405365',
+      borderWidth:10
     },
   })
   
@@ -172,5 +173,10 @@ const scoreStyle = StyleSheet.create({
       fontSize: 100,
       fontWeight: 'bold',
       position:'relative',
+      borderColor:'#405365',
+      borderWidth:10,
+      alignItems:'center',
+      justifyContent: 'center',
+      textAlign: 'center' ,
     },
   })
