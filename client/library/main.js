@@ -41,20 +41,14 @@ export default class MainScreen extends Component {
         })
     }
     handlePress(){
-            try{
-                soundObject.replayAsync();
-            }
-            catch(err){
-                throw err
-            }
             fetch('http://192.168.0.12:3001/score/increase',{
                 method:'PUT',
                 headers:{
                     'Content-Length': '0'
                    }
-            }).then(res=>{
-                if(res.status == 200){    
+            }).then(res=>{ 
                     this.setState({score:this.state.score+1}) 
+                    soundObject.replayAsync();
                     if(this.state.score % 15 == 0){
                         
                         fetch('http://192.168.0.12:3001/money/deposit',{
@@ -63,18 +57,13 @@ export default class MainScreen extends Component {
                                 'Content-Length': '0'
                                }
                         }).then(res=>{
-                            if(res.status == 200){
-                                this.setState({coins:this.state.coins+1})
-                            }
+                            
+                            this.setState({coins:this.state.coins+1})
                         }).catch(err=>{
                             console.log(err)
                             throw err
                         })
                     }    
-                }
-                else{
-                    Alert.alert('error')
-                }
             }).catch(err=>{
                 Alert.alert('error')
                 throw err

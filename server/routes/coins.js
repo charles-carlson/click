@@ -17,7 +17,6 @@ money.get('/getMoney',async function(request,response){
 
 money.put('/deposit',async function(request,response){
     var uid = request.session.uid;
-    console.log(uid);
     pool.query('UPDATE money SET coins = coins + 1 WHERE uid = $1',[uid])
     .then(res=>{
         console.log('added a coin')
@@ -31,7 +30,6 @@ money.put('/deposit',async function(request,response){
 money.put('/withdrawn', async function(request,response){
     var uid = request.session.uid;
     var amt = request.body.withdrawn;
-    console.log(uid);
     pool.query(`UPDATE money SET coins = coins - $1 WHERE mid = $2`,[amt,uid])
     .then(res=>{
         console.log('WITHDRAWN COINS')

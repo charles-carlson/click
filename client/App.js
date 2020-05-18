@@ -35,9 +35,9 @@ export default class AuthExample extends Component {
           <Stack.Screen name='Main' component={MainScreen} 
               options={({navigation})=>({
               title: ' ',
-              headerLeft: () =>( <Button title='Logout' onPress={()=>{this.logout();navigation.navigate('Home')}}/>
+              headerLeft: () =>( <Button title='Logout' color='#405365' onPress={()=>{this.logout();navigation.navigate('Home')}}/>
                 ),
-              headerRight: () => (<Button title='Settings' onPress={()=>{navigation.navigate('Settings')}}/>)
+              headerRight: () => (<Button title='Settings' color='#405365' onPress={()=>{navigation.navigate('Settings')}}/>)
               })
             }/>
           <Stack.Screen name='Highscores' 

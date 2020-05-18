@@ -5,7 +5,6 @@ var pool = require('../config/db').getPool()
 scores.get('/getHighscores',async function(req,response){
     pool.query('SELECT users.username,scores.uid,scores.points FROM scores,users WHERE users.uid=scores.uid ORDER BY points DESC LIMIT 10')
     .then(res=>{
-        console.log(res)
         response.json(res)
     }).catch(err=>{
         console.log(err)
@@ -14,13 +13,11 @@ scores.get('/getHighscores',async function(req,response){
 })
 scores.get('/getScore', async function(req,response){
     var uid= req.session.uid;
-    console.log(uid)
     var queryConfig = {
         text: 'SELECT points FROM scores WHERE scores.uid = $1;',
         values: [uid]
     }
     pool.query(queryConfig).then(res=>{
-        console.log(res)
         response.json(res)
     }).catch(err=>{
         console.log(err)

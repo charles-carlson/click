@@ -17,7 +17,6 @@ export default class HighscoresScreen extends Component {
         }).then(res=>{
             return res.json()
         }).then(myjson=>{
-                console.log(myjson.rows)
                 this.setState({
                     topScores: myjson.rows.map(score=>({
                         uid:score.uid,
@@ -25,7 +24,6 @@ export default class HighscoresScreen extends Component {
                         points: score.points
                     })
                 )})
-                console.log(this.state.topScores)
         }).catch(err=>{
             Alert.alert('error')
             throw err
@@ -40,7 +38,7 @@ export default class HighscoresScreen extends Component {
                            justifyContent: 'center' }}>
               {this.state.topScores.map((list,key)=>(
                 <Text key={key}style={styles.textStyle}>
-    <Text>{'           '}{key}{')     '}</Text>
+    <Text>{key < 10 ? '           ':'          '}{key+1}{')    '}</Text>
                     <Text >{list.username}</Text>
                     <Text>{list.points > 10 ? '    ' : '     '}{list.points}</Text> 
                     </Text>)

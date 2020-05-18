@@ -20,7 +20,6 @@ user.post('/join', async function (req,response){//creates user if not existing
             else{
                 console.log('USER CREATED')
                 var {rows} = await pool.query('SELECT uid FROM users WHERE username = $1;',[req.body.username])
-                console.log(rows[0].uid)
                 pool.query('INSERT INTO scores(uid,points) VALUES($1,$2);',[rows[0].uid,0],async function(err,res){
                     if(err){
                         console.log(err)
