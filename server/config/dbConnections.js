@@ -15,7 +15,8 @@ const create_user_table = () =>{
     const userQuery = `CREATE TABLE IF NOT EXISTS users
     (uid SERIAL PRIMARY KEY,
      username VARCHAR(100)  UNIQUE NOT NULL,
-     password VARCHAR(125)  
+     password VARCHAR(125)
+     salt VARCHAR(128)  
      )`;
      pool.query(userQuery).
      then((res)=>{
