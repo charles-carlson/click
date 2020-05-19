@@ -169,7 +169,7 @@ const titleStyle = StyleSheet.create({
 
 const scoreStyle = StyleSheet.create({
     container: {
-      color: 'purple',
+      color: '#E1B92F',
       fontSize: 100,
       fontWeight: 'bold',
       position:'relative',
