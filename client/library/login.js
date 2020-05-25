@@ -17,7 +17,7 @@ export default class LoginScreen extends Component{
            username: this.state.username,
            password: this.state.password
        }
-       fetch('http://192.168.0.12:3001/login',{
+       fetch('INSERT_IP_HERE:3001/login',{
            method:'POST',
            body: JSON.stringify(loginInfo),
            headers:{

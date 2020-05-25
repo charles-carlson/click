@@ -9,7 +9,7 @@ export default class LoginScreen extends Component{
     }
 
     onSubmit(e){
-       fetch('http://192.168.0.12:3001/destroy',{
+       fetch('http://INSERT_IP_HERE:3001/destroy',{
            method:'DELETE',
            headers:{
             'Content-Length': '0'
