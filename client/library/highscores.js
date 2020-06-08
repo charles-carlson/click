@@ -9,7 +9,7 @@ export default class HighscoresScreen extends Component {
         
     }
     componentDidMount(){
-        fetch('http://192.168.0.12:3001/score/getHighscores',{
+        fetch('http://IP-INSERT-HERE:3001/score/getHighscores',{
             method:'GET',
             headers:{
                 'Content-Length': '0'
