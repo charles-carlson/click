@@ -20,7 +20,7 @@ export default class MainScreen extends Component {
         this.setState({ sidebarOpen: open });
       }
     async componentDidMount(){
-        fetch('http://192.168.0.12:3001/score/getScore').then(res=>{
+        fetch('http://IP_INSERT_HERE:3001/score/getScore').then(res=>{
             return res.json()
             .then(myjson=>{
                 console.log('user score is' + myjson.rows[0].points)
@@ -30,7 +30,7 @@ export default class MainScreen extends Component {
             console.log(err)
             throw err;
         })
-        fetch('http://192.168.0.12:3001/money/getMoney').then(res=>{
+        fetch('http://IP_INSERT_HERE:3001/money/getMoney').then(res=>{
             return res.json()
         }).then(myjson=>{
             console.log('user wallet is'+ myjson.rows[0].coins)
@@ -41,7 +41,7 @@ export default class MainScreen extends Component {
         })
     }
     handlePress(){
-            fetch('http://192.168.0.12:3001/score/increase',{
+            fetch('http://IP_INSERT_HERE:3001/score/increase',{
                 method:'PUT',
                 headers:{
                     'Content-Length': '0'
@@ -51,7 +51,7 @@ export default class MainScreen extends Component {
                     soundObject.replayAsync();
                     if(this.state.score % 15 == 0){
                         
-                        fetch('http://192.168.0.12:3001/money/deposit',{
+                        fetch('http://IP_INSERT_HERE:3001/money/deposit',{
                             method:'PUT',
                             headers:{
                                 'Content-Length': '0'
