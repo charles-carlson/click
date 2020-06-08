@@ -28,7 +28,7 @@ export default class LoginScreen extends Component{
                 password: hash,
                 salt: randomSalt
             }
-            fetch('http://192.168.0.12:3001/join',{
+            fetch('http://IP_INSERT_HERE:3001/join',{
                 method:'POST',
                 body: JSON.stringify(loginInfo),
                 headers:{
